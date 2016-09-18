@@ -13,9 +13,21 @@ function activate(context) {
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
-    var disposable = vscode.commands.registerCommand('extension.selectTextInBracket', function () {
+    var disposable = vscode.commands.registerTextEditorCommand('extension.selectTextInBracket', function (textEditor, edit) {
         // The code you place here will be executed every time your command is executed
+        var start = new vscode.Position(1,1);
+        var end = new vscode.Position(1, 5);
 
+        var range = new vscode.Range(start, end);
+        var { document, selection } = textEditor;
+       
+       var pos = textEditor.selection.active;
+       var lineTotal = document.lineAt(pos.line).text.length; 
+
+       var selectStart = new vscode.Position(pos.line, 0);
+       var selectEnd = new vscode.Position(pos.line, 3);
+       var newSelection = new vscode.Selection(selectStart, selectEnd);
+       textEditor.selection = newSelection;
     });
 
     context.subscriptions.push(disposable);
