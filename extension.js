@@ -15,19 +15,39 @@ function activate(context) {
     // The commandId parameter must match the command field in package.json
     var disposable = vscode.commands.registerTextEditorCommand('extension.selectTextInBracket', function (textEditor, edit) {
         // The code you place here will be executed every time your command is executed
-        var start = new vscode.Position(1,1);
-        var end = new vscode.Position(1, 5);
-
-        var range = new vscode.Range(start, end);
+        const leftBrakets = ['{', '[', '('];
+        const rightBrakets = ['}', ']', ')'];
         var { document, selection } = textEditor;
-       
-       var pos = textEditor.selection.active;
-       var lineTotal = document.lineAt(pos.line).text.length; 
+        var curPos = textEditor.selection.active;
+        if(!curPos)
+            return;
+        var lineText = document.lineAt(curPos.line).text;
+        var tempBracketIndex = -1;
+        var startCharater = -1;
+        var endCharater = -1;
+        for(var i=curPos.character-1 ;i >=0;i--){
+            tempBracketIndex = leftBrakets.indexOf(lineText[i]);
+            if(tempBracketIndex >=0){
+                startCharater = i;
+                break;
+            }
+        }
+        if (tempBracketIndex >= 0) {
+            for (var i = curPos.character; i < lineText.length; i++) {
+                var rightTempIndex = rightBrakets.indexOf(lineText[i]);
+                if (rightTempIndex >= 0 && rightTempIndex == tempBracketIndex) { // bracket match
+                    endCharater = i;
+                    break;
+                }
+            }
+        }
 
-       var selectStart = new vscode.Position(pos.line, 0);
-       var selectEnd = new vscode.Position(pos.line, 3);
-       var newSelection = new vscode.Selection(selectStart, selectEnd);
-       textEditor.selection = newSelection;
+        if(startCharater >=0 && endCharater >=0){
+            var selectStart = new vscode.Position(curPos.line, startCharater + 1);
+            var selectEnd = new vscode.Position(curPos.line, endCharater);
+            var newSelection = new vscode.Selection(selectStart, selectEnd);
+            textEditor.selection = newSelection;
+        }
     });
 
     context.subscriptions.push(disposable);
