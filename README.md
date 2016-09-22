@@ -2,6 +2,10 @@
 
 This is small tool for selecting content in brackets
 
+# Install
+- Go to extension tab.
+- Input "bracket" and select "Bracket Selection" to install.
+
 # Configuration
 
 - Keyboard Setting:
