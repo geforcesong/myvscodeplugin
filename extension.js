@@ -18,31 +18,38 @@ function activate(context) {
         const leftBrakets = ['{', '[', '('];
         const rightBrakets = ['}', ']', ')'];
         var { document, selection } = textEditor;
+        let posStack = [], startCharater = -1, endCharater = -1;
         var curPos = textEditor.selection.active;
-        if(!curPos)
+        if (!curPos)
             return;
-        var lineText = document.lineAt(curPos.line).text;
-        var tempBracketIndex = -1;
-        var startCharater = -1;
-        var endCharater = -1;
-        for(var i=curPos.character-1 ;i >=0;i--){
-            tempBracketIndex = leftBrakets.indexOf(lineText[i]);
-            if(tempBracketIndex >=0){
-                startCharater = i;
-                break;
+        const lineText = document.lineAt(curPos.line).text;
+        for (let i = 0; i < lineText.length; i++) {
+            let currentCharter = lineText[i];
+            let leftType = leftBrakets.indexOf(currentCharter);
+            if (leftType >= 0) {
+                posStack.push({
+                    type: leftType,
+                    pos: i
+                })
+                continue;
             }
-        }
-        if (tempBracketIndex >= 0) {
-            for (var i = curPos.character; i < lineText.length; i++) {
-                var rightTempIndex = rightBrakets.indexOf(lineText[i]);
-                if (rightTempIndex >= 0 && rightTempIndex == tempBracketIndex) { // bracket match
+
+            let rightType = rightBrakets.indexOf(currentCharter);
+            if (rightType >= 0) {
+                if (!posStack.length)
+                    continue;
+                if (posStack[posStack.length - 1].type != rightType)
+                    continue;
+                var start = posStack.pop();
+                if (start.pos < curPos.character && curPos.character <= i) {
+                    startCharater = start.pos;
                     endCharater = i;
                     break;
                 }
             }
         }
 
-        if(startCharater >=0 && endCharater >=0){
+        if (startCharater >= 0 && endCharater >= 0) {
             var selectStart = new vscode.Position(curPos.line, startCharater + 1);
             var selectEnd = new vscode.Position(curPos.line, endCharater);
             var newSelection = new vscode.Selection(selectStart, selectEnd);
