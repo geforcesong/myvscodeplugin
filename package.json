@@ -1,6 +1,6 @@
 {
-    "name": "gg-bracket-selection",
-    "displayName": "gg-bracket-selection",
+    "name": "bracket selection",
+    "displayName": "Bracket Selection",
     "description": "",
     "version": "0.0.1",
     "publisher": "georgeguo",
@@ -25,5 +25,6 @@
     },
     "devDependencies": {
         "vscode": "^0.11.0"
-    }
+    },
+    "pic": "https://github.com/geforcesong/myvscodeplugin/raw/master/images/select.gif"
 }
