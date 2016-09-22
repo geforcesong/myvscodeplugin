@@ -13,3 +13,5 @@ This is small tool for selecting content in brackets
 2. Use hot keys
 
 ![Usage animation](images/select.gif)
+
+Market Place: https://marketplace.visualstudio.com/items?itemName=guosong.bracketselection

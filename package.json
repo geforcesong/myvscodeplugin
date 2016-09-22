@@ -1,9 +1,9 @@
 {
-    "name": "bracket selection",
+    "name": "bracketselection",
     "displayName": "Bracket Selection",
     "description": "",
     "version": "0.0.1",
-    "publisher": "georgeguo",
+    "publisher": "guosong",
     "engines": {
         "vscode": "^1.4.0"
     },
