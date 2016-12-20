@@ -2,7 +2,7 @@
     "name": "bracketselection",
     "displayName": "Bracket Selection",
     "description": "",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "publisher": "guosong",
     "engines": {
         "vscode": "^1.4.0"
