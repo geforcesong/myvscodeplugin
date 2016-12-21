@@ -15,8 +15,8 @@ function activate(context) {
     // The commandId parameter must match the command field in package.json
     var disposable = vscode.commands.registerTextEditorCommand('extension.selectTextInBracket', function (textEditor, edit) {
         // The code you place here will be executed every time your command is executed
-        const leftBrakets = ['{', '[', '(', '<'];
-        const rightBrakets = ['}', ']', ')', '>'];
+        const leftBrakets = ['{', '[', '(', '<', "'", '"'];
+        const rightBrakets = ['}', ']', ')', '>', "'", '"'];
         var { document, selection } = textEditor;
         let posStack = [], startCharater = -1, endCharater = -1;
         var curPos = textEditor.selection.active;
@@ -26,6 +26,12 @@ function activate(context) {
         for (let i = 0; i < lineText.length; i++) {
             let currentCharter = lineText[i];
             let leftType = leftBrakets.indexOf(currentCharter);
+            if(leftType === 4){
+                leftBrakets[4] = 'LSQ';
+            } else if(leftType === 5){
+                leftBrakets[5] = 'LQ';
+            }
+
             if (leftType >= 0) {
                 posStack.push({
                     type: leftType,
