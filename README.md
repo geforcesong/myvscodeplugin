@@ -15,6 +15,7 @@ This is small tool for selecting content in brackets
 
 1. Put the cursor in the center of the brackets
 2. Use hot keys
+3. Added quote and singe quote selection support
 
 ![Usage animation](images/select.gif)
 
